@@ -1,0 +1,109 @@
+/* make overlay disappear when not opened
+	this is actuallly not needed but on chrome the backdrop will not be removed
+	(polymer 0.4.2)
+*/
+/* TODO : doesnt work here for some reason
+	workaround was to set it as inline <style> in ampere-app.html
+.core-overlay-backdrop {
+display : none;
+}
+
+.core-overlay-backdrop.core-opened {
+display : block;
+}
+*/
+/*
+:host paper-toast {
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+*/
+
+:host {
+	core-tooltip {
+		display : block;
+		position: fixed;
+		top			: 0;
+		left		: 0;
+		right		: 0;
+
+		&::shadow #tooltip {
+			font-size: 14px;
+			font-weight: inherit;
+			padding: 16px;
+		}
+
+		paper-progress {
+			width : 100%;
+			display : block;
+
+			&::shadow #progressContainer {
+				background-color : inherit;
+			}
+
+			&::shadow #activeProgress {
+				background-color : #4285f4;
+			}
+		}
+	}
+
+	paper-toast::shadow {
+		.toast-text {
+			justify-content: center;
+			flex-direction: column;
+			display: flex;
+		}
+
+			/* DOES NOT WORK YET*/
+		.toast-text:not(.toast-action):empty {
+			display : none;
+		}
+
+		.toast-text.toast-action {
+			flex-direction: row;
+		}
+	}
+
+	#toast {
+		min-width : inherit;
+
+			// disable toast dismiss by css :-)
+		&::shadow .toast-container .toast-action {
+			pointer-events: none;
+		}
+
+		paper-item {
+			color : #4285f4;  //#03a9f4
+			min-width: inherit;
+			cursor : pointer;
+			pointer-events: auto;
+		}
+
+		paper-item ~ paper-item {
+			margin-left: 8px;
+		}
+
+			// disable padding when no actions/error are applied
+		&:not([actions]):not([error])::shadow {
+			.toast-container .toast-action {
+				padding-left: inherit;
+			}
+		}
+
+		&[error] paper-item {
+			color  : #eeff41;
+
+			&[NOINK]::shadow .button-content {
+				color : #f1f1f1;
+				text-decoration : underline;
+			}
+		}
+
+		paper-item::shadow .button-content {
+			padding : 0;
+			justify-content : center;
+			min-height : 24px;
+		}
+	}
+}

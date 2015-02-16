@@ -1,0 +1,39 @@
+{
+  "name": "orangevolt-ampere-ng-polymer",
+  "version": "0.0.1",
+  "description": "WebComponent/Polymer based UI for [Orangevolt AmpereNG](http://lgersman.github.com/orangevolt-ampere-ng/)",
+  "scripts": {
+    "serve": "echo '#### open http://localhost:4000 ####' && ./node_modules/.bin/supervisor -n exit -e js,es6,html,css,less -- node_modules/.bin/gulp serve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lgersman/orangevolt-ampere-ng-polymer.git"
+  },
+  "keywords": [
+    "orangevolt",
+    "polymer",
+    "ampere",
+    "webcomponents",
+    "ecmascript6",
+    "gulp"
+  ],
+  "author": "Lars Gersmann <lars.gersmann@gmail.com> (http://www.orangevolt.com/)",
+  "license": "GPL",
+  "bugs": {
+    "url": "https://github.com/lgersman/orangevolt-ampere-ng-polymer/issues"
+  },
+  "homepage": "https://github.com/lgersman/orangevolt-ampere-ng-polymer",
+  "devDependencies": {
+    "6to5": "^2.13.5",
+    "bower": "^1.3.12",
+    "browser-sync": "^1.9.1",
+    "connect-gzip-static": "^1.0.0",
+    "connect-livereload": "^0.5.2",
+    "express": "^4.11.0",
+    "globby": "^1.1.0",
+    "gulp": "^3.8.10",
+    "less": "^2.3.1",
+    "serve-index": "^1.6.0",
+    "supervisor": "^0.6.0"
+  }
+}

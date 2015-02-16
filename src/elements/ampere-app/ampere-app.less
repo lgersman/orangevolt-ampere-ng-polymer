@@ -1,0 +1,16 @@
+:host {
+	core-header-panel {
+		height : 100%;
+
+		core-toolbar {
+			/* this is a bug : https://github.com/Polymer/paper-button/issues/30 */
+			/*font-size : inherit;*/
+
+			&.transitions.global {
+				background-color: darkgray;
+				color: white;
+				fill: white;
+			}
+		}
+	}
+}

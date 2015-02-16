@@ -1,0 +1,58 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../ampere-transition/ampere-transition.html">
+<link rel="import" href="../ampere-status/ampere-status.html">
+
+<link rel="import" href="../../../bower_components/paper-dialog/paper-dialog-transition.html">
+<link rel="import" href="../../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../../bower_components/core-overlay/core-overlay.html">
+
+<polymer-element name="ampere-app" attributes="app">
+  <template>
+    <content>
+      <link rel="stylesheet" href="ampere-app.less">
+      <!-- <core-style ref="core-scroll-header-panel"></core-style> -->
+      <core-header-panel fit>
+        <div class="core-header">
+          <core-toolbar class="transitions global">
+            <template repeat="{{transition in app | transitions('global')}}">
+              <ampere-transition transition="{{transition}}"></ampere-transition>
+            </template>
+            <div layout horizontal center-justified flex>
+              {{app.view.state | caption}}
+            </div>
+            <paper-button
+              disabled?="{{!app.view.state.module.options[app.view.state.module.domain.Ampere.UI.HOMEPAGE]}}"
+              onclick ="event.target.parentElement.parentElement.parentElement.parentElement.querySelector('paper-dialog').toggle()"
+            >
+              <template if="{{app.view.state.module | icon}}">
+                <core-icon icon="{{app.view.state.module | icon}}">
+              </template>
+              <template if="{{app.view.state.module | caption}}">
+                {{app.view.state.module | caption}}
+              </template>
+            </paper-button>
+          </div>
+          </core-toolbar>
+        </div>
+        <div class="content">
+          <ampere-view host="{{}}"></ampere-view>
+          <paper-dialog heading="Dialog" _transition="paper-dialog-transition-bottom">
+            <p>Lorem ipsum dolor sit amet, doming noster at quo, nostrud lucilius rationibus ea duo. Vim no mucius dolores. No bonorum voluptatum vis, has iudicabit consectetuer ne. Nullam sensibus vim id, et quo graeci perpetua.</p>
+
+            <p>Id qui scripta laboramus dissentiet, verterem partiendo vim at. Stet dissentiet ut mei. Iriure facilis eloquentiam pro eu, nec an esse inciderint. In meliore abhorreant sea. Eros nostro ocurreret at nec. Cu per regione persecuti.</p>
+
+            <p>Lorem ipsum dolor sit amet, doming noster at quo, nostrud lucilius rationibus ea duo. Vim no mucius dolores. No bonorum voluptatum vis, has iudicabit consectetuer ne. Nullam sensibus vim id, et quo graeci perpetua.</p>
+
+            <paper-button label="More Info..." dismissive></paper-button>
+            <paper-button label="Decline" affirmative></paper-button>
+            <paper-button label="Accept" affirmative autofocus></paper-button>
+
+          </paper-dialog>
+          <ampere-status id="status" host="{{}}"></ampere-status>
+        </div>
+      </core-header-panel>
+    </content>
+  </template>
+  <script src="ampere-app.es6"></script>
+</polymer-element>

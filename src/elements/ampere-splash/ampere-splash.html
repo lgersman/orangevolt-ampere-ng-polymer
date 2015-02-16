@@ -1,0 +1,27 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../ampere-app/ampere-app.html">
+
+<polymer-element name="ampere-splash" attributes="app">
+  <template>
+    <content select='link[rel="stylesheet"]'>
+      <link rel="stylesheet" href="ampere-splash.less">
+    </content>
+    <template if="{{state!='fullfilled'}}">
+      <content select="#splash">
+        <div id="splash" fit layout horizontal center-center>
+          <div>
+            <div class="action" hidden?="{{state=='rejected'}}">Initializing</div>
+            <h3 class="caption">{{app.view.state.module | caption}}</h3>
+            <paper-progress indeterminate hidden?="{{state=='rejected'}}"></paper-progress>
+            <div class="progress-message" hidden?="{{state=='rejected'}}">{{app.promise.message || '&nbsp;'}}</div>
+            <div class="error" hidden?="{{state!='rejected'}}">{{app.promise.message || (error && error.message) || 'Error occured while initializing application.'}}</div>
+          </div>
+        </div>
+      </content>
+    </template>
+    <template if="{{state=='fullfilled'}}">
+      <ampere-app app="{{app}}"></ampere-app>
+    </template>
+  </template>
+  <script src="ampere-splash.es6"></script>
+</polymer-element>

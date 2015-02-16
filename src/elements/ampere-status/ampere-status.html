@@ -1,0 +1,53 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../ampere-overlay/ampere-overlay.html">
+
+<!--
+<style>
+.core-overlay-backdrop {
+  display : none;
+}
+
+.core-overlay-backdrop.core-opened {
+  display : block;
+  cursor  : wait;
+}
+</style>
+-->
+
+<polymer-element name="ampere-status" attributes="host">
+  <template>
+    <link rel="stylesheet" href="ampere-status.less">
+    <content>
+      <!--
+      <core-overlay id="overlay" backdrop autoFocusDisabled autoCloseDisabled></core-overlay>
+      -->
+      <ampere-overlay id="overlay"></ampere-overlay>
+      <core-tooltip label="" id="progressTooltip" class="layout flex">
+        <paper-progress id="progress"></paper-progress>
+      </core-tooltip>
+      <paper-toast id="toast" autoCloseDisabled swipeDisabled actions?="{{flash.options.actions.length}}" error?="{{flash.options.error}}">
+        <template if="{{flash.options.error}}">
+          <paper-item noink on-tap="{{displayError}}">
+            More info
+          </paper-item>
+        </template>
+        <template repeat="{{action in flash.options.actions}}">
+          <paper-item on-tap="{{executeAction}}" title="{{action | description}}">
+            <template if="{{action | icon}}">
+              <core-icon icon="{{action | icon}}">
+            </template>
+            {{action | caption}}
+          </paper-item>
+        </template>
+      </paper-toast>
+      <paper-action-dialog id="errordetails" transition="core-transition-bottom" heading="{{flash.options.error | caption('Something unexpected happended')}}">
+        <p>{{flash.options.error | description(flash.options.error.message || flash.options.error)}}</p>
+        <template if="{{flash.options.error.stack}}">
+          <pre>{{flash.options.error.stack}}</pre>
+        </template>
+        <paper-button affirmative>Ok</paper-button>
+      </paper-action-dialog>
+    </content>
+  </template>
+  <script src="ampere-status.es6"></script>
+</polymer-element>
