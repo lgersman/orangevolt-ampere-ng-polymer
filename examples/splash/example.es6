@@ -6,7 +6,7 @@ module.exports = {
 	  Ampere.domain('amperee-splash', (domain, createModule)=>{
 	    module = createModule('usage', (module, createState, createTransition)=>{
 	      module.options[domain.Ampere.UI.ICON] = 'send';
-	      module.options[domain.Ampere.UI.HOMEPAGE] = 'http://web.de';
+	      //module.options[domain.Ampere.UI.HOMEPAGE] = 'http://web.de';
 
 	      var mystate = createState('mystate', function(state, createView, createTransition) {
 	        state.options[domain.Ampere.UI.ICON] = 'refresh';

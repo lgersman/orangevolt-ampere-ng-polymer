@@ -1,4 +1,6 @@
 module.exports = {
+	tags 								: ['splash', 'injectBoundHTML'],
+	caption 						: 'Use <ampere-splash> with manually injected splash template',
 	description					: `How to customize and manually control the splash message`,
 	bootstrap 						: `
 		<template id="final-splash">

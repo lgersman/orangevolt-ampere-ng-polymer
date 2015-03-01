@@ -1,13 +1,41 @@
 :host {
-	core-toolbar {
-		&.transitions {
-			background-color: inherit;
+	&::shadow {
 
-			&.local {
-				background-color: gray;
-				color: white;
-				fill: white;
+		.header {
+			core-item::shadow {
+				#label {
+					font-size : 20px;
+					font-weight: bold;
+				}
+			}
+				
+			core-item:not([disabled])::shadow	>* {
+				cursor : pointer;
 			}
 		}
+
+		core-toolbar {
+			&.transitions {
+				background-color: inherit;
+
+				&.local {
+					background-color: gray;
+					color: white;
+					fill: white;
+				}
+			}
+		}
+  }
+		// disable dialogs having attribute disabled
+	&([disabled])::shadow #overlay {
+		position 				: fixed;
+		top 						: 0;
+		left 						: 0;
+		width 					: 100vw;
+		height 					: 100vh;
+		background-color: black;
+		opacity					: 0.2;
+		transition 			: opacity 0.2s;
+		visibility 			: visible;
 	}
 }

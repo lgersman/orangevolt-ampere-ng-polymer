@@ -1,0 +1,29 @@
+html /deep/ CODE,
+html /deep/ PRE  {
+	color  : cornflowerblue;
+}
+
+	// make view background color change smooth
+html /deep/ ampere-app /deep/ ampere-view /deep/ #content {
+	transition: background-color 1000ms linear;
+}
+
+html /deep/ ampere-app.state-.view- /deep/ ampere-view /deep/ #content {
+	background-color : brown;
+}
+
+html /deep/ ampere-app.state-.view-print /deep/ ampere-view /deep/ #content {
+	background-color : yellow;
+}
+
+html /deep/ ampere-app.state-a.view-one /deep/ ampere-view /deep/ #content {
+	background-color : red;
+}
+
+html /deep/ ampere-app.state-a.view-two /deep/ ampere-view /deep/ #content {
+	background-color : green;
+}
+
+html /deep/ ampere-app.state-b.view-one /deep/ ampere-view /deep/ #content {
+	background-color : cyan;
+}

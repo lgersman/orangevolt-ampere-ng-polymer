@@ -3,6 +3,42 @@
 	let logger;
 	document.addEventListener("polymer-ready", ()=>logger=Ampere.default.UI.logger(`<ampere-app>`));
 
+	function updateViews(host:HTMLElement) {
+		host.classList.add(`state-${host.app.view.state.name}`, `view-${host.app.view.name}`);
+
+		const notifier = Object.getNotifier && Object.getNotifier(host),
+					oldViews = host.views
+		;
+
+		host.views = [host.app.view];
+		let view = host.app.view;
+		do {
+			let parent = view.options[window.Ampere.default.UI.PARENT];
+
+			if(parent) {
+				if(parent.type!=='view') {
+					throw new Error(logger.prefix(
+						`updateViews() : view(=${view}).option[UI.PARENT] i expected of type View or falsy`
+					));
+				}
+
+				if(parent.state!==host.app.view.state) {
+					throw new Error(logger.prefix(
+						`updateViews() : parent view(=${view}) is owned by another state(=${parent.state}) than app.view (state(=${app.view.state})). parent views must always share the same state.`
+					));
+				}
+				host.views.unshift(parent);
+			}
+		} while(view=parent);
+		console.warn(host.views.map(view=>view.name));
+
+		notifier && notifier.notify({
+			type: 'update',
+			name: 'views',
+			oldValue: oldViews
+		});
+	}
+
 		/**
 		* injects setView call into undo/redo function
 		*/
@@ -24,16 +60,22 @@
 						return view.promise.then(()=>{
 							host.classList.remove(`state-${app.view.state.name}`, `view-${app.view.name}`);
 
-							setView(view);
-
-							host.classList.add(`state-${app.view.state.name}`, `view-${app.view.name}`);
-
-							app.ui('unblock');
+								// handle execptions carefully
+							try {
+								setView(view);
+								updateViews(host);
+							} catch(ex) {
+								return Promise.reject(ex);
+							} finally {
+								app.ui('unblock');
+							}
 
 							return typeof(reverseOperation)==='function' ? wrapOperation(host, reverseOperation, reverseView, setView): reverseOperation;
 						});
 					},
-					(ex)=>{
+					ex=>Promise.reject(ex)
+				).catch(
+					ex=>{
 						if(ex instanceof Error) {
 							return new Promise((resolve,reject)=>{
 								const cancel = ()=>{
@@ -42,17 +84,18 @@
 									alert("canceled");
 									reject(undefined);
 								};
-								cancel[Ampere.UI.CAPTION]='Cancel';
-								cancel[Ampere.UI.ICON]='cancel';
+								cancel[Ampere.default.UI.CAPTION]='Cancel';
+								cancel[Ampere.default.UI.ICON]='cancel';
 
 								const retry = ()=>{
 									alert("retried");
 									resolve("Subber");
 								};
-								retry[Ampere.UI.CAPTION]='Retry';
-								retry[Ampere.UI.ICON]='autorenew';
+								retry[Ampere.default.UI.CAPTION]='Retry';
+								retry[Ampere.default.UI.ICON]='autorenew';
 									// TODO : set title element of document ??
 
+								app.ui('block');
 								app.ui('flash',	ex.message || 'Error occured', {dismiss:false, actions : [cancel, retry], error : ex});
 							});
 						} else {
@@ -163,9 +206,10 @@
 				// bridge ui into app
 			app.ui = appUiInterface.bind(this, this);
 
-			this.classList.add(`state-${app.view.state.name}`, `view-${app.view.name}`);
+			updateViews(this);
 		},
-	registerUIAction(action:string, fn:Function) {
+		views : [],
+		registerUIAction(action:string, fn:Function) {
 			logger.assert(typeof(action)==='string' && typeof(fn)==='function', 'app.registerUIAction(action,fn) : action is required to be non empty string but was "' + action +  '" and 2nd argument expected to be an function');
 
 			logger.assert(this[UI_ACTIONS][action]===undefined, 'app.registerUIAction(action,fn) : action(=" + action + ") is already registered');

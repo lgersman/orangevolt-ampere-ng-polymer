@@ -1,17 +1,47 @@
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../ampere-a11y-keys/ampere-a11y-keys.html">
 
-<polymer-element name="ampere-transition" attributes="transition disabled" on-tap="{{execute}}">
+<polymer-element name="ampere-transition" attributes="transition disabled appearance" on-tap="{{execute}}">
   <template>
     <link rel="stylesheet" href="ampere-transition.less">
     <content>
-      <paper-button raised disabled?="{{disabled}}" title="{{transition | description}}">
-        <template if="{{transition | icon}}">
-          <core-icon icon="{{transition | icon}}">
+      <template id="hotkey">
+        <template if="{{transition | hotkey}}">
+          <ampere-a11y-keys keys="{{transition | hotkey}}" target="{{}}" on-keys-pressed="{{ execute }}"></ampere-a11y-keys>
         </template>
-        <template if="{{transition | caption}}">
-          {{transition | caption}}
-        </template>
-      </paper-button>
+      </template>
+
+      <template id="paper-button">
+        <paper-button raised disabled?="{{disabled}}" title="{{transition | description}}">
+          <template if="{{transition | icon}}">
+            <core-icon icon="{{transition | icon}}">
+          </template>
+          {{transition | caption('')}}
+          <template bind="{{}}" ref="hotkey"></template>
+        </paper-button>
+      </template>
+
+      <template id="paper-anchor">
+        <paper-button disabled?="{{disabled}}" title="{{transition | description}}">
+          <template if="{{transition | icon}}">
+            <core-icon icon="{{transition | icon}}">
+          </template>
+          <a href="javascript:void(0)">{{transition | caption('')}}</a>
+          <template bind="{{}}" ref="hotkey"></template>
+        </paper-button>
+      </template>
+
+      <template id="paper-item">
+        <paper-item disabled?="{{disabled}}" title="{{transition | description}}">
+          <template if="{{transition | icon}}">
+            <core-icon icon="{{transition | icon}}">
+          </template>
+          <template bind="{{}}" ref="hotkey"></template>
+          {{transition | caption('')}}
+        </paper-item>
+      </template>
+
+      <template bind="{{}}" ref="{{appearance}}"></template>
     </content>
   </template>
   <script src="ampere-transition.es6"></script>

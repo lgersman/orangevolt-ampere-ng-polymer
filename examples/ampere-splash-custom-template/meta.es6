@@ -1,4 +1,6 @@
 module.exports = {
+	tags 								: ['splash'],
+	caption 						: 'Use <ampere-splash> with custom <template>',
 	description					: `How to customize the splash template`,
 	element							: `
 		<ampere-splash fit>

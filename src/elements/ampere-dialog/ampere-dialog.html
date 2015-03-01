@@ -1,0 +1,47 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../ampere-transition/ampere-transition.html">
+<link rel="import" href="../ampere-view/ampere-view.html">
+
+<polymer-element name="ampere-dialog" extends="ampere-view">
+  <template>
+    <link rel="stylesheet" href="ampere-dialog.less">
+    <content select="template"></content>
+
+    <paper-action-dialog
+      id="dialog"
+      autoCloseDisabled='true'
+      layered="false"
+      closeSelector=''
+      class="scrolling"
+      opened
+      on-core-overlay-open-completed="{{onCoreOverlayCompleted}}"
+    >
+      <div id="content"></div>
+
+      <!-- dismissive buttons -->
+      <section layout horizontal center class="priority secondary" dismissive>
+        <template repeat="{{group in transitions('secondary') | keys}}">
+          <section layout horizontal center class="group {{group}}">
+            <template repeat="{{t in transitions('secondary', group)}}">
+              <ampere-transition transition="{{t}}" appearance="paper-item"></ampere-transition>
+            </template>
+          </section>
+        </template>
+      </section>
+
+      <!-- affirmative buttons -->
+      <section layout horizontal center class="priority primary" affirmative>
+        <template repeat="{{group in transitions('primary') | keys}}">
+          <section layout horizontal center class="group {{group}}">
+            <template repeat="{{t in transitions('primary', group)}}">
+              <ampere-transition transition="{{t}}" appearance="paper-item"></ampere-transition>
+            </template>
+          </section>
+        </template>
+      </section>
+
+      <div id="overlay"></div>
+    </paper-action-dialog>
+  </template>
+  <script src="ampere-dialog.es6"></script>
+</polymer-element>

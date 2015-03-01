@@ -5,9 +5,10 @@ const fs    		 = require('fs'),
 			gulp       = require('gulp'),
 			tu    		 = require('./task-util.es6'),
 			globby 		 = require('globby'),
-			to5			 	 = require("6to5"),
+			babel			 	 = require("babel"),
 			browserSync= require('browser-sync'),
-			less 			 = require('less')
+			less 			 = require('less'),
+			ent 			 = require('ent')
 ;
 
 less.logger.addListener(console);
@@ -21,6 +22,7 @@ function loadExample(file) {
 		path        : path.relative(__dirname, file),
 		caption     : path.basename(path.dirname(file)),
 		description : "",
+		tags				: [],
 		scripts			: [],
 		links 			: [],
 		imports			: [],
@@ -57,7 +59,7 @@ function loadExample(file) {
 			var app = window.Ampere.default.app(bootstrap());
 			document.addEventListener('polymer-ready',function() {
 				app.promise.then(function() {
-					console.log("${ex.caption} ready : ", app);
+					console.log("${ent.encode(ex.caption)} ready : ", app);
 				});
 
 				document.querySelector('ampere-splash').app = app;
@@ -87,9 +89,9 @@ function exampleListMiddleware() {
 			.on("end", ()=>{
 				let lis = examples.map(ex=>`
 						<li>
-							<a href="${ex.path}">${ex.caption}</a>
+							<a href="${ex.path}">${ent.encode(ex.caption)}</a>
 							<p>
-								${ex.description}
+								${ent.encode(ex.description)}
 							</p>
 						</li>
 				`).join('');
@@ -124,18 +126,33 @@ function exampleMiddleware() {
 					<!doctype html>
 					<html lang="en">
 						<head>
-							<title>${ex.caption}</title>
+							<title>${ent.encode(ex.caption)}</title>
 
 							<meta charset="utf-8">
 							<meta http-equiv="X-UA-Compatible" content="IE=edge">
-							<meta name="description" content="">
+
+							<meta name="keywords" content="${ent.encode(ex.tags.join(',').toLowerCase())}">
+							<meta name="description" content="${ent.encode(ex.description)}">
 							<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 						  <meta name="mobile-web-app-capable" content="yes">
 						  <meta name="apple-mobile-web-app-capable" content="yes">
 
 							<!-- Place favicon.ico and apple-touch-icon(s) in the root directory -->
 
-							<script src="/bower_components/webcomponentsjs/webcomponents.js"></script>
+							<script>
+									// load web component shim only when needed
+								if('registerElement' in document
+									&& 'createshadowRoot' in HTMLElement.prototype
+									&& 'import' in document.createElement('link')
+									&& 'content' in document.createElement('template')
+								) {
+									// We're using a browser with native WC support
+								} else {
+									var script = document.createElement('script');
+									script.src = '/bower_components/webcomponentsjs/webcomponents.js';
+									document.write(script.outerHTML);
+								}
+							</script>
 							<link rel="import" href="/bower_components/font-roboto/roboto.html">
 							<link rel="import" href="/bower_components/core-elements/core-elements.html">
 							<link rel="import" href="/bower_components/paper-elements/paper-elements.html">
@@ -157,6 +174,8 @@ function exampleMiddleware() {
 									WebComponents.flags.log['<ampere-status>']=true;
 									WebComponents.flags.log['<ampere-transition>']=true;
 									WebComponents.flags.log['<ampere-view>']=true;
+									WebComponents.flags.log['<ampere-dialog>']=true;
+									WebComponents.flags.log['Ampere']=true;
 								}
 							</script>
 							<script src="/orangevolt-ampere-ng/node_modules/traceur/bin/traceur-runtime.js"></script>
@@ -186,17 +205,15 @@ function exampleMiddleware() {
 							${ex.element}
 
 							${ex.bootstrap}
-
-							<script async src='//localhost:${BROWSERSYNC_PORT}/browser-sync/browser-sync-client.1.9.1.js'></script>
 						</body>
 					</html>
 			`);
 		} else if(req.path.endsWith('.es6')) {
 			res.setHeader('content-type', 'text/javascript');
-			res.end(to5.transformFileSync(
+			res.end(babel.transformFileSync(
 				'.' + req.path,
 				{
-					ssourceMap : 'inline'
+					//sourceMap : 'inline'
 				}
 			).code);
 		} else if(req.path.endsWith('.less')) {
@@ -236,11 +253,13 @@ module.exports = ()=>{
 	;
 
 	browserSync.init(null, {
-		port : BROWSERSYNC_PORT,
-		proxy: {
-			host: "http://localhost",
-			port: BROWSER_PORT
-		}
+			// Don't try to inject, just do a page refresh
+		injectChanges: false,
+		logLevel: "silent",
+		open : false,
+		files : [],
+		port  : BROWSERSYNC_PORT,
+		proxy : `http://localhost:${BROWSER_PORT}`
 	});
 
 	gulp.watch( ['./src/**/*.js', './examples/**/*.*'], [ 'build', 'test']);

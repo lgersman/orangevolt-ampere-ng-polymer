@@ -55,9 +55,17 @@ display : block;
 			display: flex;
 		}
 
-			/* DOES NOT WORK YET*/
-		.toast-text:not(.toast-action):empty {
-			display : none;
+
+		.toast-text:not(.toast-action) {
+				// truncate with ellipsis
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+
+				// DOES NOT WORK YET
+			&:empty {
+				display : none;
+			}
 		}
 
 		.toast-text.toast-action {
@@ -67,10 +75,13 @@ display : block;
 
 	#toast {
 		min-width : inherit;
+		z-index   : 10000;
 
 			// disable toast dismiss by css :-)
-		&::shadow .toast-container .toast-action {
-			pointer-events: none;
+		&::shadow .toast-container {
+			.toast-action {
+				pointer-events: none;
+			}
 		}
 
 		paper-item {

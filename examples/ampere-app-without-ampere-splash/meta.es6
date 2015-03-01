@@ -1,4 +1,6 @@
 module.exports = {
+	tags 								: ['splash'],
+	caption 						: 'Use <ampere-app> directly with custom splash',
 	description					: `How to bootstrap ampere-app without ampere-splash element`,
 	element							: `
 		<template>

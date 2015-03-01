@@ -1,7 +1,8 @@
 module.exports = {
-	caption 		: "app.ui contributions",
-	description : `Demo'es available functions contributed to app.ui`,
-	templates 	: [
+	tags 								: ['flash', 'ui', 'progress', 'block', 'unblock'],
+	caption 						: "app.ui contributions",
+	description 				: `Demo of available functions contributed to app.ui(...)`,
+	templates 					: [
 		`
 		<template id="view">
 			<template id="action_progress_disable">
@@ -177,9 +178,11 @@ _You will never see something happen here because you can only execute the actio
 				</section>
 			</template>
 
+			<!--
 			<p center-center horizontal layout>
 				<em>Open the Browser console to see some informative output.</em>
 			</p>
+			-->
 
 			<core-menu selected="0">
 				<template repeat="{{group in actions | keys}}">

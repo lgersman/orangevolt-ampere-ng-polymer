@@ -1,9 +1,7 @@
 (function() {
 	let log = function(priority,logger,args) {
 		if((WebComponents.flags.log || {})[logger.type] && console) {
-			console.group(logger.prefix());
-			console[priority].apply(console,args);
-			console.groupEnd();
+			console[priority].apply(console, [logger.prefix(args[0])]);
 		}
 	};
 
@@ -38,7 +36,7 @@
 		}
 
 		prefix(msg) {
-			return `[${this.type}${this.namespace ? ':' + this.namespace : ''}${msg ? ' : ' + msg : ''}`;
+			return `${this.type}${this.namespace ? ':' + this.namespace : ''}${msg ? ' : ' + msg : ''}`;
 		}
 	}
 

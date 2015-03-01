@@ -1,10 +1,9 @@
 function bootstrap(Ampere=window.Ampere.default) {
   let d = window.Ampere.default.domain(null, function(domain, createModule) {
     createModule(null, function(module, createState, createTransition) {
-      // TODO : fix polymer caption helper
-      // module.options[Ampere.UI.CAPTION] = document.title;
+      module.options[Ampere.UI.CAPTION] = document.title;
       module.options[Ampere.UI.ICON] = 'send';
-      module.options[Ampere.UI.HOMEPAGE] = 'http://web.de';
+      //module.options[Ampere.UI.HOMEPAGE] = 'http://web.de';
 
       var mystate = createState('mystate', function(state, createView, createTransition) {
         state.options[Ampere.UI.ICON] = 'refresh';
@@ -28,14 +27,12 @@ function bootstrap(Ampere=window.Ampere.default) {
         });
 
         var view1 = createView('view1', function(view, createTemplate) {
-          // TODO : view template laden
           createTemplate(document.querySelector('#mystate_view1'));
         });
 
         createTransition('a', function(transition) {
           transition.options[Ampere.UI.SCOPE] = 'local';
-          transition.transaction = function(transition) {
-          };
+          
         }, view1);
 
         createTransition('b', function(transition) {

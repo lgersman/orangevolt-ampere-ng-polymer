@@ -1,0 +1,40 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+<link rel="import" href="../ampere-transition/ampere-transition.html">
+<link rel="import" href="../../../bower_components/paper-button/paper-button.html">
+
+<polymer-element name="ampere-toolbar" attributes="app scope">
+  <template>
+    <content>
+      <link rel="stylesheet" href="ampere-toolbar.less">
+      <core-toolbar hidden?="{{scope!='global' && !containsTransitions()}}" class="transitions scope {{scope}}">
+        <section layout horizontal center class="priority primary">
+          <template repeat="{{group in transitions('primary') | keys}}">
+          	<section layout horizontal center class="group {{group}}">
+              	<template repeat="{{t in transitions('primary', group)}}">
+                	<ampere-transition transition="{{t}}" appearance="paper-item"></ampere-transition>
+                </template>
+            </section>
+          </template>
+        </section>
+        <template if="{{scope=='global'}}">
+          <section layout horizontal center-justified flex>
+            <core-item
+              icon="{{app.view.state.module | icon}}"
+              label="{{app | caption}}"
+            ></core-item>
+          </section>
+        </template>
+        <section layout horizontal center class="priority secondary">
+          <template repeat="{{group in transitions('secondary') | keys}}">
+          	<section layout horizontal center class="group {{group}}">
+              	<template repeat="{{t in transitions('secondary', group)}}">
+                	<ampere-transition transition="{{t}}" appearance="paper-item"></ampere-transition>
+                </template>
+            </section>
+          </template>
+        </section>
+      </core-toolbar>
+    </content>
+  </template>
+  <script src="ampere-toolbar.es6"></script>
+</polymer-element>

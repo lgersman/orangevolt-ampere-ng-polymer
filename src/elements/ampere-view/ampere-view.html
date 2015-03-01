@@ -1,48 +1,52 @@
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../ampere-transition/ampere-transition.html">
 
-<polymer-element name="ampere-view" attributes="host">
+<polymer-element name="ampere-view" attributes="host view disabled">
   <template>
     <link rel="stylesheet" href="ampere-view.less">
+    <!-- always visible header template. template gets bound to component property -->
+    <template id="header">
+      <div class="header">
+        <core-item
+          disabled?="{{!description}}"
+          hidden?="{{!(icon || caption)}}"
+          icon="{{icon}}"
+          label="{{caption}}"
+          on-tap="{{toggleDescription}}"
+        ></core-item>
+        <core-collapse id="description" opened>
+          <em>{{description}}</em>
+        </core-collapse>
+
+        <ampere-toolbar app="{{view.state.module.app}}" scope="local"></ampere-toolbar>
+        <!--
+        <ampere-toolbar app="{{view.state.module.app}}" scope=""></ampere-toolbar>
+      -->
+      </div>
+    </template>
+
+    <!-- default template to use if view.template is not defined, template gets bound to view property -->
     <template id="default">
-      <details open>
-        <summary>
-          <code>View "<strong>{{state.module.app.view | caption}}</strong>" (={{options[state.module.domain.Ampere.NAMESPACE]}})</code>
-        </summary>
-        <div>
-          <code><em>{{state.module.app.view | description}}</em><code>
-        </div>
-      </details>
-      <template bind="{{state.module.app | transitions('local') as local_transitions}}" _if="{{local_transitions.length}}">
-        <core-toolbar class="transitions local">
-          <template repeat="{{transition in local_transitions}}">
-            <ampere-transition transition="{{transition}}" _title="{{transition | description}}"></ampere-transition>
-          </template>
-        </core-toolbar>
-      </template>
-      <template bind="{{state.module.app | transitions() as unscoped_transitions}}" _if="{{unscoped_transitions.length}}">
-        <core-toolbar class="transitions">
-          <template repeat="{{transition in unscoped_transitions}}">
-            <ampere-transition transition="{{transition}}"></ampere-transition>
-          </template>
-        </core-toolbar>
-      </template>
       <template id="dl">
         <dl>
           <dt>
-            <code style="text-transform:capitalize">{{context.type}}</code>
+            {{context.type}}(name=<code>{{context.name | stringify}}</code>)
           </dt>
           <dd>
             <pre>{{context | stringify(true)}}</pre>
           </dd>
         </dl>
       </template>
-      <template ref="dl" bind="{{state.module.app.view as context}}"></template>
+      <template ref="dl" bind="{{state.views[name] as context}}"></template>
       <template ref="dl" bind="{{state as context}}"></template>
       <template ref="dl" bind="{{state.module as context}}"></template>
       <template ref="dl" bind="{{state.module.app as context}}"></template>
       <template ref="dl" bind="{{state.module.domain as context}}"></template>
     </template>
+
+    <div fit layout vertical id="content"></div>
+
+    <div id="overlay"></div>
   </template>
   <script src="ampere-view.es6"></script>
 </polymer-element>
