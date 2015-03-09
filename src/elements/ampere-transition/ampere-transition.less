@@ -1,1 +1,7 @@
 /*ampere-transition.less*/
+
+:host([appearance="paper-item"])::shadow paper-item,
+:host([appearance="paper-button"])::shadow paper-button,
+:host(:not([appearance="paper-button"]))::shadow paper-button, {
+  min-width : inherit;
+}

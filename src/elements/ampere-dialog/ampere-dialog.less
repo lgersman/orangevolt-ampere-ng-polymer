@@ -1,21 +1,21 @@
 :host {
-	&([disabled])::shadow #overlay {
-		z-index: 1;			// to suppress paper buttons of a previous view staying over the overlay
-	}
+  &([disabled])::shadow #overlay {
+    z-index: 1; // to suppress paper buttons of a previous view staying over the overlay
+  }
 
-	[affirmative],[dismissive] {
-		text-transform: uppercase;
-	}
+  [affirmative],[dismissive] {
+    text-transform: uppercase;
+  }
 
-		// same as in ampere-toolbar.less
-	.priority {
-		&.secondary,
-		&.primary {
-			.group {
-				& ~ .group {
-					margin-left : 16px;
-				}
-			}
-		}
-	}
+    // same as in ampere-toolbar.less
+  .priority {
+    &.secondary,
+    &.primary {
+      .group {
+        & ~ .group {
+          margin-left : 16px;
+        }
+      }
+    }
+  }
 }

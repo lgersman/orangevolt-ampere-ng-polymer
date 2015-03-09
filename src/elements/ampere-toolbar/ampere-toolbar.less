@@ -1,42 +1,42 @@
 :host {
-	core-toolbar {
-		/* this is a bug : https://github.com/Polymer/paper-button/issues/30 */
-		/*font-size : inherit;*/
+  core-toolbar {
+    /* this is a bug : https://github.com/Polymer/paper-button/issues/30 */
+    /*font-size : inherit;*/
 
-		&.transitions {
-			background-color: inherit;
-			text-transform  : uppercase;
+    &.transitions {
+      background-color: inherit;
+      text-transform  : uppercase;
 
-			&.scope.global {
-				background-color: darkgray;
-				color 					: white;
-				fill						: white;
+      &.scope.global {
+        background-color: darkgray;
+        color           : white;
+        fill            : white;
 
-				ampere-transition::shadow paper-item {
-					min-width : inherit;
+        ampere-transition::shadow paper-item {
+          min-width : inherit;
 
-					&[disabled] {
-						color : #cdcdcd;
-					}
-				}
-			}
+          &[disabled] {
+            color : #cdcdcd;
+          }
+        }
+      }
 
-			&.local {
-				background-color: gray;
-				color: white;
-				fill: white;
-			}
+      &.local {
+        background-color: gray;
+        color: white;
+        fill: white;
+      }
 
-			.priority {
-				&.secondary,
-				&.primary {
-					.group {
-						& ~ .group {
-							margin-left : 16px;
-						}
-					}
-				}
-			}
-		}
-	}
+      .priority {
+        &.secondary,
+        &.primary {
+          .group {
+            & ~ .group {
+              margin-left : 16px;
+            }
+          }
+        }
+      }
+    }
+  }
 }

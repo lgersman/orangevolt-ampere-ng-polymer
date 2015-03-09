@@ -1,46 +1,39 @@
-function bootstrap(Ampere=window.Ampere.default) {
-	let d = Ampere.domain(null, (domain, createModule)=>{
-		createModule(null, (module, createState, createTransition)=>{
-			module.options[Ampere.UI.CAPTION] = document.title;
-			module.options[Ampere.UI.DESCRIPTION] = 'Tap a transition in the global toolbar to activate another view with custom style applied';
-			module.options[Ampere.UI.ICON] = "star-outline";
+function bootstrap(Ampere=window.Ampere.default, UI=Ampere.UI) {
+  return Ampere.domain(null, (domain, createModule)=>{
+    createModule(null, (module, createState, createTransition, options=module.options)=>{
+      options[UI.CAPTION] = document.title;
+      options[UI.ICON] = "star-outline";
 
-			createState(null, (state, createView, createTransition)=>{
-				createView(null, (view, createTemplate)=>{
-					view.options[Ampere.UI.ICON]="check";
-				});
+      createState(null, (state, createView, createTransition)=>{
+        createView(null, view=>view.options[UI.ICON]="check");
 
-				createView('print', (view, createTemplate)=>{
-				});
-			});
+        createView('print', view=>{});
+      });
 
-			createState('a', (state, createView, createTransition)=>{
-				createView('one', (view, createTemplate)=>{
-				});
+      createState('a', (state, createView, createTransition)=>{
+        createView('one', view=>{});
+        createView('two', view=>{});
+      });
 
-				createView('two', (view, createTemplate)=>{
-				});
-			});
+      createState('b', (state, createView, createTransition)=>{
+        createView('one', view=>{});
+      });
 
-			createState('b', (state, createView, createTransition)=>{
-				createView('one', (view, createTemplate)=>{
-				});
-			});
+      for(let name of Object.keys(module.states)) {
+        let state = module.states[name];
+        state.options[UI.DESCRIPTION] = 'Tap a transition in the global toolbar to activate another view with custom style applied';
 
-			for(let name of Object.keys(module.states)) {
-				let s = module.states[name];
+        for(let name of Object.keys(state.views)) {
+          let view = state.views[name];
+          // view.options[UI.CAPTION]=`state ${JSON.stringify(state.name)}[view ${JSON.stringify(view.name)}]`;
 
-				for(let name of Object.keys(s.views)) {
-					let v = s.views[name];
-					v.options[Ampere.UI.CAPTION]=`state ${JSON.stringify(s.name)}[view ${JSON.stringify(v.name)}]`;
-					v.options[Ampere.UI.DESCRIPTION] = module.options[Ampere.UI.DESCRIPTION];
-
-					createTransition(`state ${JSON.stringify(s.name)}[view ${JSON.stringify(v.name)}]`, transition=>{
-						transition.options[Ampere.UI.SCOPE] = 'global';
-					}, v);
-				}
-			}
-		});
-	})
-	return d.modules[Ampere.DEFAULT].states[Ampere.DEFAULT].views[Ampere.DEFAULT];
+          createTransition(
+            `state ${JSON.stringify(state.name)}[view ${JSON.stringify(view.name)}]`,
+            transition=>transition.options[UI.SCOPE] = 'global',
+            view
+          );
+        }
+      }
+    });
+  }).modules[Ampere.DEFAULT].states[Ampere.DEFAULT].views[Ampere.DEFAULT];
 }

@@ -1,18 +1,22 @@
+# snippets
+
+zip -vr orangevolt-ampere-ng-polymer.zip orangevolt-ampere-ng-polymer/ -x *node_modules*
+
 # source
 
-* caption() filter : name als fallback
+* playground : hotkeys are not displayed
+
+* make view content area scrollable
+
+* progress
+
+* transition progress & example
 
 * transition.active oder besser über "class" option an der transition abbilden ?
-
-* transition appearance (link, paper-item, etc) controlled by attribute 'as'
-
-* transition progress
 
 * create variables.less
 
 * add <ampere-app> derivate <ampere-wizard> (same js)
-
-* styling views based on APP-AMPERE.state-[name].view-[name]
 
 * examples !!!
 
@@ -29,6 +33,8 @@
 # slides
 
 * "customers love to tell you their workflow"
+
+* "declarative application workflow"
 
 * "Humanfirst"
 
@@ -61,7 +67,7 @@
 
 * app.ui(...)
 ** flash : details to options and dont forget actions[function ok() {}] vs actions[function () {}[UI.CAPTION="OK"]]
-				"dismiss" option actions || error keep it open
+        "dismiss" option actions || error keep it open
 ** flash : with and without options.error
 ** block, block(boolean), unblock
 ** progress(...)

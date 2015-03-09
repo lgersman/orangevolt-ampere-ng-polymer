@@ -1,41 +1,79 @@
 :host {
-	&::shadow {
+  &::shadow {
 
-		.header {
-			core-item::shadow {
-				#label {
-					font-size : 20px;
-					font-weight: bold;
-				}
-			}
-				
-			core-item:not([disabled])::shadow	>* {
-				cursor : pointer;
-			}
-		}
+    #overlay {
+      opacity : 0;
+      visibility : hidden;
+    }
 
-		core-toolbar {
-			&.transitions {
-				background-color: inherit;
+    .header {
+      core-item::shadow {
+        #label {
+          font-size  : 20px;
+          font-weight: bold;
+        }
+      }
 
-				&.local {
-					background-color: gray;
-					color: white;
-					fill: white;
-				}
-			}
-		}
+        // the description
+      >core-collapse * {
+        padding : 4px;
+      }
+
+      >core-tooltip,
+      core-item:not([disabled])::shadow  >* {
+        cursor : pointer;
+      }
+    }
+
+    core-toolbar {
+      &.transitions {
+        background-color: inherit;
+
+        &.local {
+          background-color: gray;
+          color           : white;
+          fill            : white;
+        }
+      }
+    }
+
+    #hotkeymap {
+      z-index : 1;
+      position: fixed;
+      top              : 0;
+      left             : 0;
+      width            : 100vw;
+      height           : 100vh;
+
+      .hotkeys {
+        padding : 16px;
+        background-color : white;
+        min-width: 200px;
+        min-height: 100px;
+
+        .hotkey {
+          padding-top  : 0.7em;
+          padding-bottom : 0;
+
+            // description
+          div {
+            padding-top: 4px;
+          }
+        }
+      }
+    }
   }
-		// disable dialogs having attribute disabled
-	&([disabled])::shadow #overlay {
-		position 				: fixed;
-		top 						: 0;
-		left 						: 0;
-		width 					: 100vw;
-		height 					: 100vh;
-		background-color: black;
-		opacity					: 0.2;
-		transition 			: opacity 0.2s;
-		visibility 			: visible;
-	}
+    // disable dialogs having attribute disabled
+  &([disabled])::shadow #overlay,
+  &::shadow #hotkeymap .backdrop {
+    position         : fixed;
+    top              : 0;
+    left             : 0;
+    width            : 100vw;
+    height           : 100vh;
+    background-color : black;
+    opacity          : 0.2;
+    transition       : opacity 0.2s;
+    visibility       : visible;
+  }
 }

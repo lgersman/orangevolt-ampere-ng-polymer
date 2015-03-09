@@ -1,5 +1,6 @@
 <link rel="import" href="../../../bower_components/polymer/polymer.html">
 <link rel="import" href="../ampere-transition/ampere-transition.html">
+<link rel="import" href="../../../bower_components/core-icons/hardware-icons.html">
 
 <polymer-element name="ampere-view" attributes="host view disabled">
   <template>
@@ -7,21 +8,58 @@
     <!-- always visible header template. template gets bound to component property -->
     <template id="header">
       <div class="header">
-        <core-item
-          disabled?="{{!description}}"
-          hidden?="{{!(icon || caption)}}"
-          icon="{{icon}}"
-          label="{{caption}}"
-          on-tap="{{toggleDescription}}"
-        ></core-item>
+        <div layout horizontal center on-tap="{{toggleDescription}}" title="Toggle description">
+          <core-item
+            self-start
+            start-justified
+            disabled?="{{!viewDescription}}"
+            hidden?="{{!(viewIcon || viewCaption)}}"
+            icon="{{viewIcon}}"
+            label="{{viewCaption}}"
+          ></core-item>
+          <div flex>
+          </div>
+          <core-item
+            self-start
+            end-justified
+            title="Show hotkey map"
+            icon="hardware:keyboard"
+            hidden?="{{transitions | hotkeys | array('empty')}}"
+            title="Show hotkey map"
+            on-tap="{{toggleHotkeyMap}}"
+          >
+          </core-item>
+        </div>
         <core-collapse id="description" opened>
-          <em>{{description}}</em>
+          <div>
+            <em>{{viewDescription}}</em>
+          </div>
         </core-collapse>
 
         <ampere-toolbar app="{{view.state.module.app}}" scope="local"></ampere-toolbar>
         <!--
         <ampere-toolbar app="{{view.state.module.app}}" scope=""></ampere-toolbar>
       -->
+
+        <div id="hotkeymap" hidden>
+          <div class="backdrop"></div>
+            <div fit layout horizontal center-center on-tap="{{toggleHotkeyMap}}">
+              <paper-shadow z="3">
+                <div class="hotkeys">
+                  <h3>Hotkey Map</h3>
+                  <div class="content">
+                    <template repeat="{{transition in transitions | hotkeys}}">
+                      <div class="hotkey">
+                        <kbd>{{transition | hotkey}}</kbd>
+                        <ampere-transition transition="{{transition}}"></ampere-transition>
+                        <div>{{transition | description}}</div>
+                      </div>
+                    </template>
+                  </div>
+                <div>
+              </paper-shadow>
+            </div>
+        </div>
       </div>
     </template>
 

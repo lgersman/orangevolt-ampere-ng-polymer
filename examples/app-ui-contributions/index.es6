@@ -1,14 +1,13 @@
-function bootstrap(Ampere=window.Ampere.default) {
-  let d = window.Ampere.default.domain(null, (domain, createModule)=>{
+function bootstrap(Ampere=window.Ampere.default, UI=Ampere.UI) {
+  return window.Ampere.default.domain(null, (domain, createModule)=>{
     createModule(null, (module, createState, createTransition)=>{
-      module.options[domain.Ampere.UI.CAPTION] = document.title;
-      module.options[domain.Ampere.UI.DESCRIPTION] = "Open the Browser console to see some informative output.";
-      //module.options[domain.Ampere.UI.ICON] = 'send';
-      //module.options[domain.Ampere.UI.HOMEPAGE] = 'http://web.de';
+      module.options[UI.CAPTION] = document.title;
+      //module.options[UI.ICON] = 'send';
+      //module.options[UI.HOMEPAGE] = 'http://web.de';
 
       createState(null, (state, createView, createTransition)=>{
         createView(null, function(view, createTemplate) {
-          view.options[domain.Ampere.UI.DESCRIPTION] = module.options[domain.Ampere.UI.DESCRIPTION];
+          view.options[UI.DESCRIPTION] = "Open the Browser console to see some informative output.";
 
           view.onAction = (event, detail, target)=>target.templateInstance.model.item.action(event, detail, target);
 
@@ -124,7 +123,7 @@ function bootstrap(Ampere=window.Ampere.default) {
                     //error[Ampere.UI.DESCRIPTION]="That's the problem description";
 
                     module.app.ui('block');
-                  module.app.ui('flash', view.params.flashText, {dismiss : false, error : error, actions : [RETRY, CANCEL]});
+                    module.app.ui('flash', view.params.flashText, {dismiss : false, error : error, actions : [RETRY, CANCEL]});
                   }
                 }
               }
@@ -139,7 +138,5 @@ function bootstrap(Ampere=window.Ampere.default) {
 
       });
     });
-  });
-
-  return d.modules[Ampere.DEFAULT].states[Ampere.DEFAULT].views[Ampere.DEFAULT];
+  }).modules[Ampere.DEFAULT].states[Ampere.DEFAULT].views[Ampere.DEFAULT];
 }

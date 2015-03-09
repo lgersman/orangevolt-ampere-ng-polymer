@@ -9,9 +9,9 @@
       <core-toolbar hidden?="{{scope!='global' && !containsTransitions()}}" class="transitions scope {{scope}}">
         <section layout horizontal center class="priority primary">
           <template repeat="{{group in transitions('primary') | keys}}">
-          	<section layout horizontal center class="group {{group}}">
-              	<template repeat="{{t in transitions('primary', group)}}">
-                	<ampere-transition transition="{{t}}" appearance="paper-item"></ampere-transition>
+            <section layout horizontal center class="group {{group}}">
+                <template repeat="{{t in transitions('primary', group)}}">
+                  <ampere-transition transition="{{t}}" appearance="paper-item"></ampere-transition>
                 </template>
             </section>
           </template>
@@ -26,9 +26,9 @@
         </template>
         <section layout horizontal center class="priority secondary">
           <template repeat="{{group in transitions('secondary') | keys}}">
-          	<section layout horizontal center class="group {{group}}">
-              	<template repeat="{{t in transitions('secondary', group)}}">
-                	<ampere-transition transition="{{t}}" appearance="paper-item"></ampere-transition>
+            <section layout horizontal center class="group {{group}}">
+                <template repeat="{{t in transitions('secondary', group)}}">
+                  <ampere-transition transition="{{t}}" appearance="paper-item"></ampere-transition>
                 </template>
             </section>
           </template>

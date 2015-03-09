@@ -36,85 +36,85 @@
         }
       }
 
-		let value;
+      let value;
 
-    if(hasOwnMember(object.options || object, property)) {
-      value = (object.options || object)[property];
-    } else {
-	    if(object.type==='transition') {
-        if(property===Ampere.default.UI.CAPTION && object.name!==Ampere.default.UI.DEFAULT) {
-          value=object.name;
-        } else if(parentTraversalTypes.indexOf('view')!==-1) {
-  				object = object.view;
-        } else {
-          object = {};
-        }
-	    }
-
-  		if(object.type==='view') {
-        if(hasOwnMember(object.options, property)) {
-          value = object.options[property];
-        } else if(parentTraversalTypes.indexOf('state')!=-1) {
-					object = object.state;
-				} else {
-          object = {};
-        }
-			}
-
-		  if(object.type==='state') {
-	      if(hasOwnMember(object.options, property)) {
-          value = object.options[property];
-        } else if(parentTraversalTypes.indexOf('app')!=-1) {
-          object = object.module.app;
-        } else {
-          object = {};
-        }
-  		}
-
-      if(object.type==='app') {
-        if(hasOwnMember(object.options, property)) {
-          value = object.options[property];
-        } else if(parentTraversalTypes.indexOf('module')!=-1) {
-          object = object.view.state.module;
-        } else {
-          object = {};
-        }
-      }
-
-			if(object.type==='module') {
-				if(hasOwnMember(object.options, property)) {
-          value = object.options[property];
-        } else if(parentTraversalTypes.indexOf('domain')!=-1) {
-          object = object.domain;
-        } else {
-          object = {};
-        }
-			}
-
-      if(object.type==='domain') {
-        if(hasOwnMember(object.options, property)) {
-          value = object.options[property];
-        } else if(parentTraversalTypes.indexOf('Ampere')!=-1) {
-          object = object.Ampere;
-        } else {
-          object = {};
-        }
-      }
-
-      if(object.type==='Ampere') {
-        value = object.options[property];
+      if(hasOwnMember(object.options || object, property)) {
+        value = (object.options || object)[property];
       } else {
-        object = {};
+        if(object.type==='transition') {
+          if(property===Ampere.default.UI.CAPTION && object.name!==Ampere.default.UI.DEFAULT) {
+            value=object.name;
+          } else if(parentTraversalTypes.indexOf('view')!==-1) {
+            object = object.view;
+          } else {
+            object = {};
+          }
+        }
+
+        if(object.type==='view') {
+          if(hasOwnMember(object.options, property)) {
+            value = object.options[property];
+          } else if(parentTraversalTypes.indexOf('state')!=-1) {
+            object = object.state;
+          } else {
+            object = {};
+          }
+        }
+
+        if(object.type==='state') {
+          if(hasOwnMember(object.options, property)) {
+            value = object.options[property];
+          } else if(parentTraversalTypes.indexOf('app')!=-1) {
+            object = object.module.app;
+          } else {
+            object = {};
+          }
+        }
+
+        if(object.type==='app') {
+          if(hasOwnMember(object.options, property)) {
+            value = object.options[property];
+          } else if(parentTraversalTypes.indexOf('module')!=-1) {
+            object = object.view.state.module;
+          } else {
+            object = {};
+          }
+        }
+
+        if(object.type==='module') {
+          if(hasOwnMember(object.options, property)) {
+            value = object.options[property];
+          } else if(parentTraversalTypes.indexOf('domain')!=-1) {
+            object = object.domain;
+          } else {
+            object = {};
+          }
+        }
+
+        if(object.type==='domain') {
+          if(hasOwnMember(object.options, property)) {
+            value = object.options[property];
+          } else if(parentTraversalTypes.indexOf('Ampere')!=-1) {
+            object = object.Ampere;
+          } else {
+            object = {};
+          }
+        }
+
+        if(object.type==='Ampere') {
+          value = object.options[property];
+        } else {
+          object = {};
+        }
+
+        if(value===undefined) {
+          object = object.options || object;
+          value = object[property] || object.name;
+        }
       }
 
-      if(value===undefined) {
-        object = object.options || object;
-        value = object[property] || object.name;
-      }
-		}
-
-		return typeof(value)==='function' ? value(object) : value;
-	};
+      return typeof(value)==='function' ? value(object) : value;
+    };
 
     PolymerExpressions.prototype.caption = (obj, defaultValue)=>{
       return findProperty(window.Ampere.default.UI.CAPTION, obj) || defaultValue;
@@ -136,11 +136,10 @@
       return prettyprint ? JSON.stringify(arg, null, '  ') : JSON.stringify(arg);
     };
 
-
       // required unless polymer has builtin support for iterating objects (example : repeat="{{k,v in obj}}")
     PolymerExpressions.prototype.keys = (arg)=>{
       if(arg===null || arg===undefined) {
-      	return [];
+        return [];
       } else if(arg instanceof Array) {
         return arg;
       } else if((arg instanceof Map) || (arg instanceof WeakMap) || (arg instanceof Set)) {
@@ -154,6 +153,25 @@
       } else {
         throw new Error( "dont know how to extract keys from " + arg);
       }
+    };
+
+    PolymerExpressions.prototype.array = (array, propertyOrFunction, ...args)=>{
+      if(Array.isArray(array)) {
+        switch(propertyOrFunction) {
+          case 'empty' :
+            return !array.length;
+            break;
+          default      :
+            if(typeof(array[propertyOrFunction])==='function') {
+              return array[propertyOrFunction](...args);
+            } else {
+              return array[propertyOrFunction];
+            }
+            break;
+        }
+      }
+
+      return;
     };
 
     /*

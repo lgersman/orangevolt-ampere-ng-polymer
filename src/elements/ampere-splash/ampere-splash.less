@@ -1,28 +1,28 @@
 :host {
-	#splash {
-		>DIV>* {
-			text-align: center;
+  #splash {
+    >DIV>* {
+      text-align   : center;
 
-				/* truncate with ellipsis */
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
-		}
+        /* truncate with ellipsis */
+      white-space  : nowrap;
+      overflow     : hidden;
+      text-overflow: ellipsis;
+    }
 
-		.error {
-			color : crimson;
-		}
+    .error {
+      color : crimson;
+    }
 
-		paper-progress {
-			width : 100%;
+    paper-progress {
+      width             : 100%;
 
-			&::shadow #progressContainer {
-				background-color: inherit;
-			}
+      &::shadow #progressContainer {
+        background-color: inherit;
+      }
 
-			&::shadow #progressContainer #activeProgress {
-				background-color: #4285f4;
-			}
-		}
-	}
+      &::shadow #progressContainer #activeProgress {
+        background-color: #4285f4;
+      }
+    }
+  }
 }

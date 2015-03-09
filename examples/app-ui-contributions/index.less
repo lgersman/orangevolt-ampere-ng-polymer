@@ -1,71 +1,71 @@
 @deep: ~'/deep/';
 
 HTML @{deep} {
-	paper-checkbox {
-		padding-right: 8px;
-	}
+  paper-checkbox {
+    padding-right: 8px;
+  }
 
-	core-menu {
-		core-submenu {
-			&::shadow > core-item.core-selected {
-				background-color  : #4285f4;
-				color      				: white;
-				padding-left			: 8px;
-			}
+  core-menu {
+    core-submenu {
+      &::shadow > core-item.core-selected {
+        background-color  : #4285f4;
+        color              : white;
+        padding-left      : 8px;
+      }
 
-			/* the real sub menu entries*/
-			core-item {
-				>DIV:last-child {
-					padding : 8px;
+      /* the real sub menu entries*/
+      core-item {
+        >DIV:last-child {
+          padding : 8px;
 
-					>.caption {
-						cursor 				: pointer;
-						white-space		: nowrap;
-					  overflow 			: hidden;
-					  text-overflow : ellipsis;
-					}
+          >.caption {
+            cursor         : pointer;
+            white-space    : nowrap;
+            overflow       : hidden;
+            text-overflow : ellipsis;
+          }
 
-					>.details {
-						>* {
-							padding					 : 8px;
-						}
-						background-color : cornsilk;
+          >.details {
+            >* {
+              padding           : 8px;
+            }
+            background-color : cornsilk;
 
-							// transition settings
-						height     : auto;
-						overflow   : hidden;
-						max-height : 0;
-						transition : max-height 0.3s ease-out;
-					}
-				}
+              // transition settings
+            height     : auto;
+            overflow   : hidden;
+            max-height : 0;
+            transition : max-height 0.3s ease-out;
+          }
+        }
 
-				&.core-selected {
-					>DIV:last-child {
-						background-color  : #4285f4;
+        &.core-selected {
+          >DIV:last-child {
+            background-color  : #4285f4;
 
-						>.caption {
-							cursor : inherit;
-							color      				: white;
-						}
+            >.caption {
+              cursor : inherit;
+              color              : white;
+            }
 
-						>.details {
-							font-weight : normal;
+            >.details {
+              font-weight : normal;
 
-								// transition settings
-							max-height: 20em;
+                // transition settings
+              max-height: 20em;
 
-							marked-element/*:not(:empty)*/ {
-								display : block;
-							}
+              marked-element/*:not(:empty)*/ {
+                display : block;
+              }
 
-							paper-button {
-								text-transform: none;
-								background-color : white;
-							}
-						}
-					}
-				}
-			}
-		}
-	}
+              paper-button {
+                text-transform: none;
+                background-color : white;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }

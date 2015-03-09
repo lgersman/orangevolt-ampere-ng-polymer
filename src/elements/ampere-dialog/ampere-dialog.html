@@ -14,15 +14,16 @@
       closeSelector=''
       class="scrolling"
       opened
+      ttransition="core-transition-center"
       on-core-overlay-open-completed="{{onCoreOverlayCompleted}}"
     >
       <div id="content"></div>
 
       <!-- dismissive buttons -->
       <section layout horizontal center class="priority secondary" dismissive>
-        <template repeat="{{group in transitions('secondary') | keys}}">
+        <template repeat="{{group in dialogTransitions('secondary') | keys}}">
           <section layout horizontal center class="group {{group}}">
-            <template repeat="{{t in transitions('secondary', group)}}">
+            <template repeat="{{t in dialogTransitions('secondary', group)}}">
               <ampere-transition transition="{{t}}" appearance="paper-item"></ampere-transition>
             </template>
           </section>
@@ -31,9 +32,9 @@
 
       <!-- affirmative buttons -->
       <section layout horizontal center class="priority primary" affirmative>
-        <template repeat="{{group in transitions('primary') | keys}}">
+        <template repeat="{{group in dialogTransitions('primary') | keys}}">
           <section layout horizontal center class="group {{group}}">
-            <template repeat="{{t in transitions('primary', group)}}">
+            <template repeat="{{t in dialogTransitions('primary', group)}}">
               <ampere-transition transition="{{t}}" appearance="paper-item"></ampere-transition>
             </template>
           </section>
