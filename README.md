@@ -1,3 +1,5 @@
+# THIS PACKAGE IS OUTDATED (based on the old orangevolt-ampere-ng 0.0.1 version and Polymer 0.8). Please refer to orangevolt-ampere-ng-react or orangevolt-ampere-ng-blessed for up-to-date ui implementations.
+
 ## [Orangevolt AmpereNG Polymer](http://lgersman.github.com/orangevolt-ampere-ng-polymer/) is WebComponent/Polymer based UI for [Orangevolt AmpereNG](http://lgersman.github.com/orangevolt-ampere-ng/).
 
 [Orangevolt AmpereNG](http://lgersman.github.com/orangevolt-ampere-ng/) is the evolutionary next step of [jquery.orangevolt-ampere](https://github.com/lgersman/jquery.orangevolt-ampere).
